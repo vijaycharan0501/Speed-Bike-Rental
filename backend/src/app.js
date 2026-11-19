@@ -47,6 +47,17 @@ export function createApp() {
   app.use('/api', generalApiLimiter);
   app.use(inMemoryDevFallback);
 
+  // Root welcome route
+  app.get('/', (_req, res) => {
+    res.json({
+      success: true,
+      message: 'Speed Bike Rental API is running live on Render.',
+      version: '2.0.0',
+      health: '/api/health',
+      bikes: '/api/bikes',
+    });
+  });
+
   // Routes
   app.use('/api', publicRoutes);
   app.use('/api/admin/auth', adminAuthRoutes);

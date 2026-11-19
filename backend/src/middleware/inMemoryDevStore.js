@@ -118,6 +118,17 @@ export function inMemoryDevFallback(req, res, next) {
 
   const { method, path } = req;
 
+  // --- Root Welcome Route ---
+  if (method === 'GET' && path === '/') {
+    return res.json({
+      success: true,
+      message: 'Speed Bike Rental API is running live on Render.',
+      version: '2.0.0',
+      health: '/api/health',
+      bikes: '/api/bikes',
+    });
+  }
+
   // --- Public Settings ---
   if (method === 'GET' && path === '/api/settings/public') {
     return res.json({
