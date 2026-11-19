@@ -88,10 +88,31 @@ export function AdminDashboardPage() {
 
   if (loading) return <LoadingState message="Loading live database metrics..." />;
   if (error) return <ErrorBanner message={error} onRetry={loadDashboard} />;
-  if (!summary) return null;
 
-  const { kpis, availabilitySummary, bookingStatusChart, recentBookings, popularBikes } = summary;
-  const sym = settings.currencySymbol || '$';
+  const kpis = summary?.kpis || {
+    totalBikes: 0,
+    publishedBikes: 0,
+    availableBikes: 0,
+    maintenanceBikes: 0,
+    unavailableBikes: 0,
+    activeBookings: 0,
+    pendingBookings: 0,
+    totalCustomers: 0,
+    newEnquiries: 0,
+    recordedRevenue: 0,
+    recordedRevenueCount: 0,
+    estimatedPipelineValue: 0,
+    estimatedPipelineCount: 0,
+  };
+  const availabilitySummary = summary?.availabilitySummary || {
+    available: 0,
+    maintenance: 0,
+    unavailable: 0,
+  };
+  const bookingStatusChart = Array.isArray(summary?.bookingStatusChart) ? summary.bookingStatusChart : [];
+  const recentBookings = Array.isArray(summary?.recentBookings) ? summary.recentBookings : [];
+  const popularBikes = Array.isArray(summary?.popularBikes) ? summary.popularBikes : [];
+  const sym = settings?.currencySymbol || '₹';
 
   const kpiCards = [
     {

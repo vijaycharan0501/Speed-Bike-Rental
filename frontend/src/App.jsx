@@ -21,17 +21,17 @@ const TermsPage = lazy(() => import('./pages/Terms/TermsPage').then((m) => ({ de
 const PrivacyPage = lazy(() => import('./pages/Privacy/PrivacyPage').then((m) => ({ default: m.PrivacyPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
 
-// Lazy-loaded Admin pages (reduces customer-facing initial bundle size)
-const AdminLoginPage = lazy(() => import('./admin/Login/AdminLoginPage').then((m) => ({ default: m.AdminLoginPage })));
-const AdminDashboardPage = lazy(() => import('./admin/Dashboard/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage })));
-const AdminBikesPage = lazy(() => import('./admin/Bikes/AdminBikesPage').then((m) => ({ default: m.AdminBikesPage })));
-const AdminBikeFormPage = lazy(() => import('./admin/Bikes/AdminBikeFormPage').then((m) => ({ default: m.AdminBikeFormPage })));
-const AdminBookingsPage = lazy(() => import('./admin/Bookings/AdminBookingsPage').then((m) => ({ default: m.AdminBookingsPage })));
-const AdminCustomersPage = lazy(() => import('./admin/Customers/AdminCustomersPage').then((m) => ({ default: m.AdminCustomersPage })));
-const AdminReviewsPage = lazy(() => import('./admin/Reviews/AdminReviewsPage').then((m) => ({ default: m.AdminReviewsPage })));
-const AdminReportsPage = lazy(() => import('./admin/Reports/AdminReportsPage').then((m) => ({ default: m.AdminReportsPage })));
-const AdminWebsiteContentPage = lazy(() => import('./admin/WebsiteContent/AdminWebsiteContentPage').then((m) => ({ default: m.AdminWebsiteContentPage })));
-const AdminSettingsPage = lazy(() => import('./admin/Settings/AdminSettingsPage').then((m) => ({ default: m.AdminSettingsPage })));
+// Admin pages (eagerly imported to prevent runtime chunk 404s after redeployments)
+import { AdminLoginPage } from './admin/Login/AdminLoginPage';
+import { AdminDashboardPage } from './admin/Dashboard/AdminDashboardPage';
+import { AdminBikesPage } from './admin/Bikes/AdminBikesPage';
+import { AdminBikeFormPage } from './admin/Bikes/AdminBikeFormPage';
+import { AdminBookingsPage } from './admin/Bookings/AdminBookingsPage';
+import { AdminCustomersPage } from './admin/Customers/AdminCustomersPage';
+import { AdminReviewsPage } from './admin/Reviews/AdminReviewsPage';
+import { AdminReportsPage } from './admin/Reports/AdminReportsPage';
+import { AdminWebsiteContentPage } from './admin/WebsiteContent/AdminWebsiteContentPage';
+import { AdminSettingsPage } from './admin/Settings/AdminSettingsPage';
 
 function RouteFallback() {
   return (
