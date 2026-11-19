@@ -1,0 +1,46 @@
+{
+  "backupDate": "2026-11-20T00:07:00.000Z",
+  "description": "Backup of Speed Bike Rental demo data before admin panel reset",
+  "demoBookings": [
+    {
+      "_id": "book_demo_101",
+      "bookingReference": "SBR-104921",
+      "customerName": "Rahul Sharma",
+      "phone": "+91 98765 43210",
+      "email": "rahul.sharma@example.com",
+      "address": "Hotel SNR Twilight, Narravari St, Gandhi Nagar, Vijayawada",
+      "rentalDays": 2,
+      "pricePerDay": 399,
+      "estimatedTotal": 798,
+      "bookingStatus": "Confirmed",
+      "paymentStatus": "Paid",
+      "bike": "Honda Activa 6G"
+    },
+    {
+      "_id": "book_demo_102",
+      "bookingReference": "SBR-104922",
+      "customerName": "Ananya Reddy",
+      "phone": "+91 98480 12345",
+      "email": "ananya.reddy@example.com",
+      "address": "Besant Road, Governorpet, Vijayawada",
+      "rentalDays": 4,
+      "pricePerDay": 499,
+      "estimatedTotal": 1996,
+      "bookingStatus": "Active",
+      "paymentStatus": "Paid",
+      "bike": "TVS Jupiter 125"
+    }
+  ],
+  "demoCustomers": [
+    {
+      "name": "Rahul Sharma",
+      "phone": "+91 98765 43210",
+      "email": "rahul.sharma@example.com"
+    },
+    {
+      "name": "Ananya Reddy",
+      "phone": "+91 98480 12345",
+      "email": "ananya.reddy@example.com"
+    }
+  ]
+}

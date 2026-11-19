@@ -1,0 +1,544 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    max-width: 100%;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-brand-yellow px-5 py-3 text-sm font-bold text-brand-black shadow-sm transition hover:bg-brand-yellow-hover focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-brand-border bg-white px-5 py-3 text-sm font-semibold text-brand-black transition hover:bg-brand-grey focus:outline-none focus:ring-2 focus:ring-brand-black focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-dark {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-brand-black px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-surface focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-whatsapp {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .card {
+    @apply rounded-2xl border border-brand-border bg-white shadow-card;
+  }
+
+  .input-field {
+    @apply min-h-[44px] w-full rounded-xl border border-brand-border bg-white px-3.5 py-2.5 text-sm text-brand-black placeholder:text-brand-muted/70 transition focus:border-brand-black focus:outline-none focus:ring-2 focus:ring-brand-yellow/60 disabled:bg-brand-grey disabled:text-brand-muted;
+  }
+
+  .label-field {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-brand-black/80;
+  }
+}
+
+/* ============================================================================
+   CINEMATIC SINGLE-BANNER HERO (320px -> 1920px+, NEVER vertically stacked)
+   Layer 0: Full-bleed racing track + mountain sunset background
+   Layer 1: Left-only dark readability gradient + subtle racing speed accents
+   Layer 2: Foreground transparent racing superbike cutout (RIGHT / LOWER-RIGHT)
+   Layer 3: Left-aligned hero copy & CTAs
+============================================================================ */
+.sbr-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #101114;
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+}
+
+.sbr-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 62%;
+  z-index: 0;
+  pointer-events: none;
+  transform: scale(1.02);
+}
+
+/* Subtle dark gradient behind LEFT text ONLY; right side stays bright & transparent */
+.sbr-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      98deg,
+      rgba(16, 17, 20, 0.92) 0%,
+      rgba(16, 17, 20, 0.80) 38%,
+      rgba(16, 17, 20, 0.34) 56%,
+      rgba(16, 17, 20, 0.05) 74%,
+      rgba(16, 17, 20, 0) 100%
+    ),
+    radial-gradient(
+      circle at 78% 58%,
+      rgba(255, 196, 0, 0.14) 0%,
+      rgba(255, 196, 0, 0) 48%
+    );
+}
+
+/* Subtle bottom vignette grounding the asphalt track seamlessly */
+.sbr-hero-floor {
+  position: absolute;
+  inset-x: 0;
+  bottom: 0;
+  height: 24%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(16, 17, 20, 0.55) 0%, rgba(16, 17, 20, 0) 100%);
+}
+
+.sbr-hero-stage {
+  position: relative;
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: inherit;
+  display: flex;
+  align-items: center;
+  padding: 74px 12px 22px;
+}
+
+.sbr-hero-content {
+  position: relative;
+  z-index: 3;
+  width: 57%;
+  max-width: 195px;
+}
+
+/* Separate foreground racing motorcycle image — bright, crisp, unobstructed */
+.hero-bike-image {
+  position: absolute;
+  right: 2px;
+  bottom: 8px;
+  width: 47%;
+  height: 76%;
+  object-fit: contain;
+  object-position: right bottom;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.72));
+}
+
+.sbr-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 196, 0, 0.45);
+  background: rgba(16, 17, 20, 0.65);
+  backdrop-filter: blur(6px);
+  padding: 3px 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #FFC400;
+}
+
+.sbr-hero-title {
+  margin-top: 8px;
+  font-size: 22px;
+  line-height: 1.06;
+  font-weight: 800;
+  color: #FFFFFF;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+.sbr-hero-desc {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.38;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.sbr-hero-features {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3px;
+}
+
+.sbr-hero-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  line-height: 1.25;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.sbr-hero-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sbr-hero-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  border-radius: 10px;
+  background-color: #FFC400;
+  padding: 6px 11px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #101114;
+  box-shadow: 0 4px 14px rgba(255, 196, 0, 0.3);
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.sbr-hero-btn-primary:hover {
+  background-color: #EAB300;
+}
+
+.sbr-hero-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(16, 17, 20, 0.48);
+  backdrop-filter: blur(6px);
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #FFFFFF;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.sbr-hero-btn-secondary:hover {
+  border-color: #FFC400;
+  background: rgba(16, 17, 20, 0.7);
+}
+
+/* 360px - 389px (Standard compact mobile: 360x800, 375x812) */
+@media (min-width: 360px) {
+  .sbr-hero {
+    min-height: 375px;
+  }
+  .sbr-hero-stage {
+    padding: 78px 14px 24px;
+  }
+  .sbr-hero-content {
+    width: 55%;
+    max-width: 220px;
+  }
+  .hero-bike-image {
+    right: 4px;
+    bottom: 8px;
+    width: 50%;
+    height: 80%;
+  }
+  .sbr-hero-title {
+    font-size: 25px;
+  }
+  .sbr-hero-desc {
+    font-size: 11.5px;
+  }
+  .sbr-hero-feature-item {
+    font-size: 10.5px;
+  }
+  .sbr-hero-btn-primary,
+  .sbr-hero-btn-secondary {
+    min-height: 36px;
+    padding: 7px 12px;
+    font-size: 11.5px;
+  }
+}
+
+/* 390px - 429px (iPhone 14/15/16, 400x689) */
+@media (min-width: 390px) {
+  .sbr-hero {
+    min-height: 395px;
+  }
+  .sbr-hero-stage {
+    padding: 82px 16px 28px;
+  }
+  .sbr-hero-content {
+    width: 55%;
+    max-width: 245px;
+  }
+  .hero-bike-image {
+    right: 6px;
+    bottom: 10px;
+    width: 51%;
+    height: 83%;
+  }
+  .sbr-hero-badge {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+  .sbr-hero-title {
+    font-size: 27px;
+  }
+  .sbr-hero-desc {
+    font-size: 12px;
+  }
+  .sbr-hero-features {
+    gap: 4px;
+  }
+  .sbr-hero-feature-item {
+    font-size: 11px;
+  }
+  .sbr-hero-btn-primary,
+  .sbr-hero-btn-secondary {
+    min-height: 38px;
+    padding: 8px 13px;
+    font-size: 12px;
+  }
+}
+
+/* 430px - 639px (Large phones: 430x932) */
+@media (min-width: 430px) {
+  .sbr-hero {
+    min-height: 420px;
+  }
+  .sbr-hero-stage {
+    padding: 84px 18px 30px;
+  }
+  .sbr-hero-content {
+    width: 54%;
+    max-width: 290px;
+  }
+  .hero-bike-image {
+    right: 8px;
+    bottom: 10px;
+    width: 52%;
+    height: 85%;
+  }
+  .sbr-hero-title {
+    font-size: 30px;
+  }
+  .sbr-hero-desc {
+    font-size: 13px;
+  }
+  .sbr-hero-feature-item {
+    font-size: 12px;
+  }
+  .sbr-hero-actions {
+    gap: 8px;
+  }
+  .sbr-hero-btn-primary,
+  .sbr-hero-btn-secondary {
+    min-height: 40px;
+    padding: 9px 15px;
+    font-size: 12.5px;
+  }
+}
+
+/* 640px - 767px (Phablet / Small Tablet) */
+@media (min-width: 640px) {
+  .sbr-hero {
+    min-height: 455px;
+  }
+  .sbr-hero-stage {
+    padding: 96px 24px 38px;
+  }
+  .sbr-hero-content {
+    width: 52%;
+    max-width: 360px;
+  }
+  .hero-bike-image {
+    right: 14px;
+    bottom: 12px;
+    width: 53%;
+    height: 88%;
+  }
+  .sbr-hero-title {
+    font-size: 36px;
+  }
+  .sbr-hero-desc {
+    font-size: 14px;
+  }
+  .sbr-hero-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 12px;
+  }
+  .sbr-hero-btn-primary,
+  .sbr-hero-btn-secondary {
+    min-height: 44px;
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}
+
+/* 768px - 1023px (Tablet: 768x1024) */
+@media (min-width: 768px) {
+  .sbr-hero {
+    min-height: 490px;
+  }
+  .sbr-hero-stage {
+    padding: 102px 24px 44px;
+  }
+  .sbr-hero-content {
+    width: 46%;
+    max-width: 390px;
+  }
+  .hero-bike-image {
+    right: 12px;
+    bottom: 14px;
+    width: 52%;
+    height: 88%;
+  }
+  .sbr-hero-badge {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+  .sbr-hero-title {
+    margin-top: 12px;
+    font-size: 42px;
+  }
+  .sbr-hero-desc {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  .sbr-hero-features {
+    margin-top: 16px;
+    gap: 8px 14px;
+  }
+  .sbr-hero-feature-item {
+    font-size: 13px;
+  }
+  .sbr-hero-actions {
+    margin-top: 22px;
+    gap: 12px;
+  }
+}
+
+/* 1024px - 1439px (Laptop: 1024x768) */
+@media (min-width: 1024px) {
+  .sbr-hero {
+    min-height: 590px;
+  }
+  .sbr-hero-overlay {
+    background:
+      linear-gradient(
+        95deg,
+        rgba(16, 17, 20, 0.94) 0%,
+        rgba(16, 17, 20, 0.80) 34%,
+        rgba(16, 17, 20, 0.34) 50%,
+        rgba(16, 17, 20, 0.04) 66%,
+        rgba(16, 17, 20, 0) 100%
+      ),
+      radial-gradient(
+        circle at 74% 55%,
+        rgba(255, 196, 0, 0.16) 0%,
+        rgba(255, 196, 0, 0) 45%
+      );
+  }
+  .sbr-hero-stage {
+    padding: 114px 32px 58px;
+  }
+  .sbr-hero-content {
+    width: 44%;
+    max-width: 490px;
+  }
+  .hero-bike-image {
+    right: 16px;
+    bottom: 16px;
+    width: 54%;
+    height: 82%;
+    filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.78));
+  }
+  .sbr-hero-title {
+    margin-top: 16px;
+    font-size: 52px;
+  }
+  .sbr-hero-desc {
+    margin-top: 14px;
+    font-size: 17px;
+  }
+  .sbr-hero-features {
+    margin-top: 20px;
+    gap: 10px 18px;
+  }
+  .sbr-hero-feature-item {
+    font-size: 14px;
+  }
+  .sbr-hero-actions {
+    margin-top: 28px;
+  }
+  .sbr-hero-btn-primary,
+  .sbr-hero-btn-secondary {
+    min-height: 48px;
+    padding: 12px 24px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+}
+
+/* 1440px+ (Desktop: 1440x900, 1920x1080) */
+@media (min-width: 1440px) {
+  .sbr-hero {
+    min-height: 645px;
+  }
+  .sbr-hero-title {
+    font-size: 58px;
+  }
+  .sbr-hero-desc {
+    font-size: 18px;
+  }
+  .hero-bike-image {
+    right: 28px;
+    bottom: 18px;
+    width: 57%;
+    height: 83%;
+  }
+}
+
+/* Promotional marquee ticker with reduced-motion accessibility support */
+@keyframes sbr-ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.sbr-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: sbr-ticker 28s linear infinite;
+}
+
+.sbr-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sbr-ticker-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: center;
+  }
+}
