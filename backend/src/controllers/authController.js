@@ -37,6 +37,7 @@ export async function loginAdmin(req, res, next) {
     return sendSuccess(res, {
       message: 'Logged in successfully.',
       data: {
+        token,
         admin: {
           id: admin._id,
           name: admin.name,

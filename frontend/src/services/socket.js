@@ -8,9 +8,13 @@ const listeners = new Map();
  */
 export function getSocket() {
   if (!socket) {
-    // In dev, connect to backend URL or current origin
-    const serverUrl = import.meta.env.VITE_API_BASE_URL || window.location.origin;
-    // If running with Vite on 5173 without VITE_API_BASE_URL, connect to backend on 5000
+    const rawServer = import.meta.env.VITE_SOCKET_URL || import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '';
+    const serverUrl = rawServer
+      ? rawServer.replace(/\/api\/?$/, '').replace(/\/$/, '')
+      : (typeof window !== 'undefined' && window.location.hostname !== 'localhost'
+          ? 'https://speed-bike-rental.onrender.com'
+          : window.location.origin);
+
     const socketUrl = serverUrl.includes(':5173')
       ? serverUrl.replace(':5173', ':5000')
       : serverUrl;

@@ -24,18 +24,24 @@ export function createApp() {
     })
   );
 
-  // Strict CORS allowlist
+  // Strict CORS allowlist with automated Vercel & localhost support
   app.use(
     cors({
       origin(origin, callback) {
-        if (!origin || env.frontendOrigins.includes(origin)) {
+        if (
+          !origin ||
+          env.frontendOrigins.includes(origin) ||
+          origin.endsWith('.vercel.app') ||
+          origin.includes('localhost') ||
+          origin.includes('127.0.0.1')
+        ) {
           return callback(null, true);
         }
-        return callback(new Error('Not allowed by CORS policy.'));
+        return callback(new Error(`Origin ${origin} not allowed by CORS policy.`));
       },
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'X-CSRF-Token'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token'],
     })
   );
 

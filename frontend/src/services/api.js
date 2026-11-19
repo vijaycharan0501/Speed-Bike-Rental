@@ -1,9 +1,25 @@
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+let rawBase = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').trim();
+
+// When running on a live domain (e.g. Vercel) with no explicit env set, connect directly to the live Render backend
+if (!rawBase && typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+  rawBase = 'https://speed-bike-rental.onrender.com';
+}
+
+export const API_BASE = rawBase.replace(/\/api\/?$/, '').replace(/\/$/, '');
 
 let inMemoryCsrfToken = '';
+let inMemoryAuthToken = typeof localStorage !== 'undefined' ? localStorage.getItem('sbr_token') || '' : '';
 
 export function setCsrfTokenMemory(token) {
   if (token) inMemoryCsrfToken = token;
+}
+
+export function setAuthTokenMemory(token) {
+  inMemoryAuthToken = token || '';
+  if (typeof localStorage !== 'undefined') {
+    if (token) localStorage.setItem('sbr_token', token);
+    else localStorage.removeItem('sbr_token');
+  }
 }
 
 function getCsrfToken() {
@@ -22,6 +38,11 @@ async function request(path, { method = 'GET', body, isFormData = false } = {}) 
   const headers = {};
   if (!isFormData) {
     headers['Content-Type'] = 'application/json';
+  }
+
+  // Attach Bearer token for reliable cross-domain requests
+  if (inMemoryAuthToken) {
+    headers['Authorization'] = `Bearer ${inMemoryAuthToken}`;
   }
 
   if (!['GET', 'HEAD', 'OPTIONS'].includes(method)) {
@@ -80,12 +101,20 @@ export const adminApi = {
   // Auth
   login: async (credentials) => {
     const res = await request('/api/admin/auth/login', { method: 'POST', body: credentials });
+    if (res.data?.token) setAuthTokenMemory(res.data.token);
     if (res.data?.csrfToken) setCsrfTokenMemory(res.data.csrfToken);
     return res;
   },
-  logout: () => request('/api/admin/auth/logout', { method: 'POST' }),
+  logout: async () => {
+    try {
+      await request('/api/admin/auth/logout', { method: 'POST' });
+    } finally {
+      setAuthTokenMemory('');
+    }
+  },
   me: async () => {
     const res = await request('/api/admin/auth/me');
+    if (res.data?.token) setAuthTokenMemory(res.data.token);
     if (res.data?.csrfToken) setCsrfTokenMemory(res.data.csrfToken);
     return res;
   },

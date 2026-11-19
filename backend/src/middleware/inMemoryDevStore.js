@@ -409,22 +409,23 @@ export function inMemoryDevFallback(req, res, next) {
         env.jwtSecret,
         { expiresIn: '7d' }
       );
-      res.cookie('sbr_admin_token', signedToken, {
+      const cookieOptions = {
         httpOnly: true,
-        sameSite: 'lax',
+        sameSite: env.isProd ? 'none' : 'lax',
+        secure: env.isProd,
         path: '/',
         maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
+      };
+      res.cookie('sbr_admin_token', signedToken, cookieOptions);
       res.cookie('sbr_csrf_token', 'dev-csrf-token', {
+        ...cookieOptions,
         httpOnly: false,
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
       return res.json({
         success: true,
         message: 'Admin login successful.',
         data: {
+          token: signedToken,
           admin: {
             id: 'admin_1',
             name: 'Speed Admin',
